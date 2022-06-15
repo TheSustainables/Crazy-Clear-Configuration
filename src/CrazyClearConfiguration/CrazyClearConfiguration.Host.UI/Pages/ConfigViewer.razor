@@ -1,12 +1,8 @@
 ﻿@page "/config-viewer"
-@using System
+@using System.Dynamic
 @using System.IO
-@using System.Text.Json
-@using System.Text.Json.Nodes
 @using CrazyClearConfiguration.Adapter.Configuration.Json
-@using CrazyClearConfiguration.Adapter.Configuration.Memory
 @using CrazyClearConfiguration.Core.Usecases
-@using CrazyClearConfiguration.Host.UI.Data
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<ConfigViewer> Logger
@@ -32,39 +28,26 @@ else if (loadedFile != null) {
 }
 
 @if (config != null) {
+    <TrySomething />
     <MudPaper Elevation="0">
         <MudTreeView T="string" CanHover="true">
-            <MudTreeViewItem Value="@("content")">
-                <MudTreeViewItem Value="@("logo.png")"/>
-            </MudTreeViewItem>
-            <MudTreeViewItem Value="@("src")">
-                <MudTreeViewItem Value="@("mudblazor.docs")"/>
-                <MudTreeViewItem Value="@("mudblazor.docs.server")"/>
-            </MudTreeViewItem>
-            
-            @foreach (var item in config) 
-            {
-                <MudTreeViewItem Value="@item.ToString()"/>
-            }
-
+            <NestableConfiguartionTree config="@config" />
         </MudTreeView>
-                
-                
     </MudPaper>
 }
 
-
 @code {
     private IBrowserFile loadedFile;
-    private long maxFileSize = 1024 * 30;
+    private long maxFileSize = 1024 * 1000;
     private int maxAllowedFiles = 1;
-    private dynamic config;
+    private ExpandoObject config;
     private bool isLoading;
     private string configType;
 
     private async Task LoadFile(InputFileChangeEventArgs e) {
         isLoading = true;
         var file = e.GetMultipleFiles().First();
+        config = null;
 
         try {
             loadedFile = file;
