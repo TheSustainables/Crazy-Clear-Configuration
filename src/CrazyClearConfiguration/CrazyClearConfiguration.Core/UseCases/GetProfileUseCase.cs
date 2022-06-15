@@ -13,6 +13,6 @@ public class GetProfileUseCase
 
     public async Task<ConfigProfile> Execute(string name)
     {
-        return await _profilePort.Get(name);
+        return await _profilePort.Load(name);
     }
 }

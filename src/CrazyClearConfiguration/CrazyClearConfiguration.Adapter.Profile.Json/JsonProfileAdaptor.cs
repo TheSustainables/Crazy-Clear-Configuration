@@ -7,6 +7,14 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
     {
         private const string ProfilesBasePath = "./profiles";
 
+        public JsonProfileAdaptor()
+        {
+            if (!Directory.Exists(ProfilesBasePath))
+            {
+                Directory.CreateDirectory(ProfilesBasePath);
+            }
+        }
+
         private string GetFileName(string name)
         {
             var fileName = name.Trim();
@@ -19,7 +27,7 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
             return fileName;
         }
 
-        public async Task<ConfigProfile> Get(string name)
+        public async Task<ConfigProfile> Load(string name)
         {
             var fileName = GetFileName(name);
             var filePath = Path.Combine(ProfilesBasePath, fileName);
@@ -35,9 +43,9 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
             return profile ?? ConfigProfile.Empty;
         }
 
-        public async Task Save(string name, ConfigProfile profile)
+        public async Task Save(ConfigProfile profile)
         {
-            var fileName = GetFileName(name);
+            var fileName = GetFileName(profile.Name);
             var filePath = Path.Combine(ProfilesBasePath, fileName);
             var fileContent = JsonConvert.SerializeObject(profile, Formatting.Indented);
 

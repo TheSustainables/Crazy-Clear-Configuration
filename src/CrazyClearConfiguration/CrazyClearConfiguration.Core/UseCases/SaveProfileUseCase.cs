@@ -11,8 +11,8 @@ public class SaveProfileUseCase
         _profilePort = profilePort;
     }
 
-    public async Task Execute(string name, ConfigProfile profile)
+    public async Task Execute(ConfigProfile profile)
     {
-        await _profilePort.Save(name, profile);
+        await _profilePort.Save(profile);
     }
 }

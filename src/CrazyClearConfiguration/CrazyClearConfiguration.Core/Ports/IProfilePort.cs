@@ -2,8 +2,8 @@
 {
     public interface IProfilePort
     {
-        Task<ConfigProfile> Get(string name);
-        Task Save(string name, ConfigProfile profile);
+        Task<ConfigProfile> Load(string name);
+        Task Save(ConfigProfile profile);
     }
 
     public class ConfigProfile
