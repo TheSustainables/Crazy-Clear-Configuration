@@ -1,0 +1,29 @@
+﻿@using System.Dynamic
+@using System.Collections
+
+@foreach (var item in Config) {
+    if (item.Value is ExpandoObject) {
+        <MudTreeViewItem Value="@item.Key">
+            <NestableConfiguartionTree config="@item.Value"/>
+        </MudTreeViewItem>
+    }
+    else if (item.Value is IList) {
+            <MudTreeViewItem Value="@item.Key">
+                @foreach (var listItem in (IEnumerable) item.Value) {
+                    <MudTreeViewItem Value="listItem"/>
+                }
+            </MudTreeViewItem>
+    }
+    else {
+        <MudTreeViewItem Value="@item.Key">
+            <MudTreeViewItem Value="@item.Value"/>
+        </MudTreeViewItem>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public ExpandoObject Config { get; set; }
+
+}

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components" />
+  </ItemGroup>
+
 </Project>
