@@ -1,0 +1,30 @@
+{
+  "String": "Hello 1",
+  "Int": 1,
+  "Boolean": true,
+  "Array": [
+    "Item 1",
+    "Item 2"
+  ],
+  "Object": {
+    "String": "Hello 2",
+    "Int": 2,
+    "Boolean": true,
+    "Array": [
+      "Item1",
+      "Item2"
+    ]
+  },
+  "ObjectArray": [
+    {
+      "String": "Hello 3",
+      "Int": 3,
+      "Boolean": true
+    },
+    {
+      "String": "Hello 4",
+      "Int": 4,
+      "Boolean": true
+    }
+  ]
+}
