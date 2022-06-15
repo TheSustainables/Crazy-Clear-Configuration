@@ -1,4 +1,5 @@
 using CrazyClearConfiguration.Core.Extensions;
+using System.Dynamic;
 using System.IO;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace CrazyClearConfiguration.Adapter.Configuration.Json.Tests
         {
             var adaptor = new JsonConfigAdaptor(JsonSource);
             var expandoObject = await adaptor.Read();
-
+            
             Assert.Equal("Hello 1", expandoObject.GetValue("String").AsString());
             Assert.Equal(1, expandoObject.GetValue("Int").AsInt());
             Assert.True(expandoObject.GetValue("Boolean").AsBoolean());
