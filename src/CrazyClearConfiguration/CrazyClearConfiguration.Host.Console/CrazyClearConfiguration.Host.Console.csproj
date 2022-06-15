@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Json\CrazyClearConfiguration.Adapter.Configuration.Json.csproj" />
       <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj" />
       <ProjectReference Include="..\CrazyClearConfiguration.Core\CrazyClearConfiguration.Core.csproj" />
     </ItemGroup>

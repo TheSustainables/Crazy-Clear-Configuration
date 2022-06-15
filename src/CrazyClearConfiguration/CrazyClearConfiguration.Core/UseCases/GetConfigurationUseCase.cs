@@ -1,4 +1,4 @@
-﻿using CrazyClearConfiguration.Core.Ports;
+using CrazyClearConfiguration.Core.Ports;
 
 namespace CrazyClearConfiguration.Core.UseCases;
 

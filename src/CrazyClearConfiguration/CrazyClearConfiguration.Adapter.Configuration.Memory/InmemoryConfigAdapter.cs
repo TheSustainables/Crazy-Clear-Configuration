@@ -8,7 +8,7 @@ public class InMemoryConfigAdapter : IConfigPort
     public Task<ExpandoObject> Read()
     {
         dynamic data = new ExpandoObject();
-        data.Value = "test1";
+        data.Data = "test1";
         data.Array = new string[]
         {
             "1",
@@ -16,7 +16,7 @@ public class InMemoryConfigAdapter : IConfigPort
             "3",
         };
         dynamic dataObject = new ExpandoObject();
-        dataObject.Value = "test2";
+        dataObject.Data = "test2";
         dataObject.Array = new string[]
         {
             "1",
