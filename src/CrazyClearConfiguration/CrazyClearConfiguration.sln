@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Hos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Core", "CrazyClearConfiguration.Core\CrazyClearConfiguration.Core.csproj", "{D9CBDCC8-D7A6-437B-9E56-7826B45B8283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyClearConfiguration.Host.UI", "CrazyClearConfiguration.Host.UI\CrazyClearConfiguration.Host.UI.csproj", "{7BC3C27A-3F55-4746-BAF3-B210A44C392B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Host.UI", "CrazyClearConfiguration.Host.UI\CrazyClearConfiguration.Host.UI.csproj", "{7BC3C27A-3F55-4746-BAF3-B210A44C392B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyClearConfiguration.Adapter.Configuration.Memory", "CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj", "{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Adapter.Configuration.Memory", "CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj", "{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Adapter.Configuration.Json", "CrazyClearConfiguration.Adapter.Configuration.Json\CrazyClearConfiguration.Adapter.Configuration.Json.csproj", "{E04CF182-E870-425E-B499-56075EC4F6CA}"
 EndProject
@@ -29,14 +29,14 @@ Global
 		{D9CBDCC8-D7A6-437B-9E56-7826B45B8283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9CBDCC8-D7A6-437B-9E56-7826B45B8283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9CBDCC8-D7A6-437B-9E56-7826B45B8283}.Release|Any CPU.Build.0 = Release|Any CPU
-		{870FCA33-5C06-4B28-B632-822BE8FE992F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{870FCA33-5C06-4B28-B632-822BE8FE992F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{870FCA33-5C06-4B28-B632-822BE8FE992F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{870FCA33-5C06-4B28-B632-822BE8FE992F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BC3C27A-3F55-4746-BAF3-B210A44C392B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BC3C27A-3F55-4746-BAF3-B210A44C392B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BC3C27A-3F55-4746-BAF3-B210A44C392B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BC3C27A-3F55-4746-BAF3-B210A44C392B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13AEC4D-CCDE-435E-9C82-B6CEABA10733}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E04CF182-E870-425E-B499-56075EC4F6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E04CF182-E870-425E-B499-56075EC4F6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E04CF182-E870-425E-B499-56075EC4F6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
