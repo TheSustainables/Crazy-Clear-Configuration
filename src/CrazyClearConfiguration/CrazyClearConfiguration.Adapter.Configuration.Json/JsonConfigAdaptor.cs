@@ -1,4 +1,4 @@
-﻿using CrazyClearConfiguration.Core;
+﻿using CrazyClearConfiguration.Core.Ports;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Dynamic;

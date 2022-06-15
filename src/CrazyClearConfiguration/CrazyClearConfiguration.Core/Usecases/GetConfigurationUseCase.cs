@@ -1,6 +1,6 @@
-﻿using System.Dynamic;
+﻿using CrazyClearConfiguration.Core.Ports;
 
-namespace CrazyClearConfiguration.Core.Usecases;
+namespace CrazyClearConfiguration.Core.UseCases;
 
 public class GetConfigurationUseCase
 {

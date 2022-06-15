@@ -1,9 +1,9 @@
 ﻿using System.Dynamic;
-using CrazyClearConfiguration.Core;
+using CrazyClearConfiguration.Core.Ports;
 
 namespace CrazyClearConfiguration.Adapter.Configuration.Memory;
 
-public class InmemoryConfigAdapter : IConfigPort
+public class InMemoryConfigAdapter : IConfigPort
 {
     public Task<ExpandoObject> Read()
     {

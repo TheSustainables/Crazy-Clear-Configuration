@@ -1,10 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using CrazyClearConfiguration.Adapter.Configuration.Memory;
-using CrazyClearConfiguration.Core.Usecases;
+using CrazyClearConfiguration.Core.UseCases;
 
 Console.WriteLine("Hello, World!");
-var adapter = new InmemoryConfigAdapter();
+var adapter = new InMemoryConfigAdapter();
 var usecase = new GetConfigurationUseCase(adapter);
 var data = usecase.Execute().Result;
 
