@@ -1,14 +1,14 @@
 ﻿using System.Dynamic;
-using CrazyClearConfiguration.Core;
+using CrazyClearConfiguration.Core.Ports;
 
 namespace CrazyClearConfiguration.Adapter.Configuration.Memory;
 
-public class InmemoryConfigAdapter : IConfigPort
+public class InMemoryConfigAdapter : IConfigPort
 {
     public Task<ExpandoObject> Read()
     {
         dynamic data = new ExpandoObject();
-        data.Value = "test1";
+        data.Data = "test1";
         data.Array = new string[]
         {
             "1",
@@ -16,7 +16,7 @@ public class InmemoryConfigAdapter : IConfigPort
             "3",
         };
         dynamic dataObject = new ExpandoObject();
-        dataObject.Value = "test2";
+        dataObject.Data = "test2";
         dataObject.Array = new string[]
         {
             "1",

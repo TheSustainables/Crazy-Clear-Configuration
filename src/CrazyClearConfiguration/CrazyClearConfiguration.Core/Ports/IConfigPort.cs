@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 
-namespace CrazyClearConfiguration.Core
+namespace CrazyClearConfiguration.Core.Ports
 {
     public interface IConfigPort
     {

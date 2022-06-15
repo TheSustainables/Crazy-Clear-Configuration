@@ -1,10 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Collections;
+using System.Dynamic;
+using CrazyClearConfiguration.Adapter.Configuration.Json;
 using CrazyClearConfiguration.Adapter.Configuration.Memory;
-using CrazyClearConfiguration.Core.Usecases;
+using CrazyClearConfiguration.Core.UseCases;
 
 Console.WriteLine("Hello, World!");
-var adapter = new InmemoryConfigAdapter();
+var adapter = new JsonConfigAdaptor(@"C:\Users\Robert\Desktop\TestSettings.json");
+//var adapter = new InmemoryConfigAdapter();
 var usecase = new GetConfigurationUseCase(adapter);
 var data = usecase.Execute().Result;
 
