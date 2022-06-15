@@ -10,4 +10,9 @@
     <PackageReference Include="MudBlazor" Version="6.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Json\CrazyClearConfiguration.Adapter.Configuration.Json.csproj" />
+    <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj" />
+  </ItemGroup>
+
 </Project>

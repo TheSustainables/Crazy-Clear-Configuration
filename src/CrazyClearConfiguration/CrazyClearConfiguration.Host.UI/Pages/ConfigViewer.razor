@@ -3,19 +3,20 @@
 @using System.IO
 @using System.Text.Json
 @using System.Text.Json.Nodes
+@using CrazyClearConfiguration.Adapter.Configuration.Json
+@using CrazyClearConfiguration.Adapter.Configuration.Memory
+@using CrazyClearConfiguration.Core.Usecases
 @using CrazyClearConfiguration.Host.UI.Data
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<ConfigViewer> Logger
 @inject IWebHostEnvironment Environment
 
-<h3>Load config:</h3>
-
 <p>
-    <select @bind="configType">
-       <option value="json">JSON</option>
-       <option value="yaml">YAML</option>
-    </select>
+    <label>
+        <h3>Load configuration:</h3>
+        <InputFile OnChange="@LoadFile" />
+    </label>
 </p>
 
 @if (isLoading) {
@@ -28,9 +29,6 @@ else if (loadedFile != null) {
         <div>Size (bytes): @loadedFile.Size</div>
         <div>Content type: @loadedFile.ContentType</div>
     </div>
-    <pre>
-        @config
-    </pre>
 }
 
 @if (config != null) {
@@ -56,7 +54,6 @@ else if (loadedFile != null) {
 }
 
 
-
 @code {
     private IBrowserFile loadedFile;
     private long maxFileSize = 1024 * 30;
@@ -65,13 +62,7 @@ else if (loadedFile != null) {
     private bool isLoading;
     private string configType;
 
-    protected override void OnInitialized() {
-        var str = "{\"ApplicationSettings\":{\"Sources\":{\"default\":{\"ApiSettings\":{\"RemoteQuote\":{\"SourceSettings\":{\"rabobank\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"rabobank essent\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"homeqgo\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\",\"PdfTemplateName\":\"Orientatierapport huisscan\"},\"greenchoice\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"independer\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"rabobankproductscansolarpanel\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"rabobankproductscaninsulation\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"abnamro\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"dehypotheker\":{\"ProjectId\":\"e0d020dd101a4e2dae6df26d82d074ae\",\"AdviceProductId\":\"ab8900eaf61000da4ad989f4d19e3fbb\"},\"solvari\":{\"ProjectId\":\"95b11972182743a9936d35fdf711a05e\",\"AdviceProductId\":\"ad7400ede5c8026f42acfc72d276cb2b\"}},\"DefaultSource\":\"Rabobank\",\"SourceMappings\":{\"rabobank\":\"Rabobank\",\"homeqgo\":\"homeQgo\",\"greenchoice\":\"Greenchoice\",\"independer\":\"Independer\",\"dehypotheker\":\"De Hypotheker\",\"rabobankProductScanSolarPanel\":\"Productscan zonnepanelen Rabobank\",\"rabobankProductScanInsulation\":\"Productscan isolatie Rabobank\",\"solvari\":\"Solvari\"},\"ABTestRate\":1,\"ABTestSources\":[\"rabobank\"],\"ABTestSuffix\":\"Essent\",\"PdfTemplateName\":\"Orientatierapport huisscan\",\"SourceProductMappings\":{\"test\":{\"SolarPanel\":{\"ProductId\":\"ac5400864dee00854ccd25402151402c\",\"TemplateName\":\"homeQgo zonnepalen offerte\"}}},\"ProductMappings\":{\"SolarPanel\":{\"ProductId\":\"ac5400864dee00854ccd25402151402c\",\"TemplateName\":\"homeQgo zonnepalen offerte\"},\"CavityWallInsulation\":{\"ProductId\":\"ac59009323cc091f4d06c823382c9991\",\"TemplateName\":\"homeQgo spouwmuurisolatie offerte\"},\"FloorInsulation\":{\"ProductId\":\"ac590093879809214372aae464336c16\",\"TemplateName\":\"homeQgo vloerisolatie offerte\"},\"Boiler\":{\"ProductId\":\"ac5a00f51a2c003f4f48b09ecdc5c95e\",\"TemplateName\":null},\"Heatpump\":{\"ProductId\":\"ac5a00f5486d00404207dc962630cfa4\",\"TemplateName\":\"homeQgo hybride warmtepomp offerte\"},\"Glass\":{\"ProductId\":\"ac5a00f56c8200414f7584ac9293f07f\",\"TemplateName\":null},\"RoofInsulation\":{\"ProductId\":\"ac5a00f8a6f0006c46c9836a289cf1cd\",\"TemplateName\":\"homeQgo dakisolatie offerte\"},\"OutsideWallInsulation\":{\"ProductId\":\"ac5a00f8c5f0006d46d6eabe8e8802b7\",\"TemplateName\":null},\"Radiator\":{\"ProductId\":\"ac5a00f90d62006e4b16cdce85752052\",\"TemplateName\":null},\"FloorHeating\":{\"ProductId\":\"ac5a00f938e6006f44bc0282c739fb12\",\"TemplateName\":null},\"SolarBoiler\":{\"ProductId\":\"ac5a00f9594b00704e65d0c6f6e17e32\",\"TemplateName\":null},\"AllElectricHeatpump\":{\"ProductId\":\"ac5a00f9803c00714fdc3bfa484b33f1\",\"TemplateName\":null}}},\"FactService\":{\"AppId\":\"ts-es-homeqgo-v2\"},\"AdviceService\":{\"TenantMappings\":{\"rabobank\":\"homeqgo\",\"rabobank essent\":\"homeqgo\",\"homeqgo\":\"homeqgo\",\"greenchoice\":\"greenchoice\",\"dehypotheker\":\"dehypotheker\",\"independer\":\"independer\",\"rabobankproductscansolarpanel\":\"homeqgo\",\"rabobankproductscaninsulation\":\"homeqgo\",\"abnamro\":\"abnamro\",\"solvari\":\"solvari\"},\"Source\":\"homeqgo-v2\"},\"LeadService\":{\"SolvariBaseUrl\":\"\",\"SolvariApiKey\":null,\"IsTest\":true}},\"ClientSettings\":{\"LegacySource\":\"homeqgo\",\"Redirects\":[{\"source\":\"ing\",\"from\":\"huisscan\",\"to\":\"isolatie\"}],\"ContentfulSpaceId\":\"test\",\"ContentfulEnvironment\":\"test\",\"ContentfulAccessToken\":\"test\",\"AppBaseUrl\":\"http://localhost:3032\",\"LandingPageUrl\":\"http://localhost:3032\",\"CustomerPdfReportEnabled\":true,\"ShowProductTips\":true,\"CanAccessLandingPage\":true,\"PrePaymentEnabled\":false,\"CanRefineProducts\":true,\"RefinementBackButtonTo\":\"Advice\",\"PdfQuoteForHappyFlowProducts\":[\"SolarPanel\",\"CavityWallInsulation\",\"FloorInsulation\",\"Heatpump\",\"RoofInsulation\"],\"PdfQuoteForSemihappyFlowProducts\":[\"FloorInsulation\",\"CavityWallInsulation\",\"SolarPanel\",\"Heatpump\",\"RoofInsulation\"],\"PdfQuoteForImpossibleProducts\":[\"\"],\"PdfQuoteToTransferProducts\":[\"\"],\"ABTestEnabledProducts\":[\"SolarPanel\",\"CavityWallInsulation\",\"FloorInsulation\",\"Boiler\"],\"RefinementRemarkProducts\":[\"SolarBoiler\",\"RoofInsulation\",\"Glass\",\"Boiler\",\"Radiator\",\"OutsideWallInsulation\",\"FloorHeating\",\"CombinationHeatpump\",\"VentilationHeatpump\",\"AllElectricHeatpump\"],\"GoogleMapsApiKey\":\"test\",\"CustomerPortalV2Url\":\"https://ts-cp-homeqgo-v2-test.azurewebsites.net\",\"GreenMixUrl\":\"test\",\"AdviceReportExtended\":false,\"Tealium\":{\"Environment\":\"dev\"},\"AppointmentRequest\":{\"Enabled\":false,\"PostUrl\":\"\",\"Source\":\"\",\"Reference\":\"\"},\"SolarPanel\":{\"MinPanelCountForPreferences\":6},\"GoogleTagManager\":{\"id\":\"\",\"enabled\":false,\"SourceContainers\":{\"solvari\":\"\"}},\"SourceOverrides\":{\"homeqgo\":{\"CustomerPdfReportEnabled\":false},\"rabobank\":{\"AppBaseUrl\":\"http://rabobank.localtest.me:3032\",\"AppointmentRequest\":{\"Enabled\":true,\"PostUrl\":\"https://essent-energyshop-test.thesustainables.nl/adviesgesprek-aanvragen-link\",\"Source\":\"Essent - Online scan\",\"Reference\":\"Rabobank\"}},\"ing\":{\"AppBaseUrl\":\"http://ing.localtest.me:3032\",\"LandingPageUrl\":\"http://ing.localtest.me:3032/isolatie\",\"CanAccessLandingPage\":false,\"CustomerPdfReportEnabled\":false},\"dehypotheker\":{\"AppBaseUrl\":\"http://hypotheker.localtest.me:3032\"},\"greenchoice\":{\"AppBaseUrl\":\"http://greenchoice.localtest.me:3032\",\"CanAccessLandingPage\":false,\"CustomerPdfReportEnabled\":false,\"PdfQuoteForHappyFlowProducts\":[\"CavityWallInsulation\",\"FloorInsulation\"],\"PdfQuoteForSemihappyFlowProducts\":[\"CavityWallInsulation\",\"FloorInsulation\"],\"PdfQuoteToTransferProducts\":[\"SolarPanel\",\"Heatpump\"]},\"solvari\":{\"AppBaseUrl\":\"http://solvari.localtest.me:3032\",\"LandingPageUrl\":\"https://www.solvari.nl/huisscan\",\"CanAccessLandingPage\":false,\"CustomerPdfReportEnabled\":false,\"CanRefineProducts\":false},\"abnamro\":{\"ShowProductTips\":false,\"CustomerPdfReportEnabled\":false,\"CanAccessLandingPage\":false,\"Tealium\":{\"Environment\":\"dev\"}},\"independer\":{\"CanAccessLandingPage\":false,\"CustomerPdfReportEnabled\":false},\"rabobankProductScanSolarPanel\":{},\"rabobankProductScanInsulation\":{\"LandingPageUrl\":\"/isolatie\"}},\"InitialSolarCategoryId\":0},\"ProductSettings\":{\"SolarPanelSettings\":{\"InverterName:InverterSingleMpp\":\"test\"},\"FloorInsulationSettings\":{\"DefaultProductIds\":[6,10],\"LowHeightProductIds\":[9,11]},\"RoofInsulationSettings\":{\"FinishedFlatProductId\":0,\"UnfinishedFlatProductId\":0,\"FinishedSlopedProductId\":10,\"UnfinishedSlopedProductId\":8}}},\"rabobank\":{\"ClientSettings\":{\"LegacySource\":\"rabobank\"}}},\"Flows\":{}},\"ApiManagementSettings\":{\"BaseUrl\":\"https://ts-apim-general.azure-api.net\",\"Environment\":\"Test\",\"ApiKey\":\"0ccb7e3ff810421f84229416a0e99486\",\"AppId\":\"ts-es-homeqgo-v2\"},\"PromotionSettings\":{\"JwtRsaPublicKey\":\"this_is_a_fake_key\"},\"HostNameSettings\":{\"SourceMapping\":{\"homeqgo.nl\":\"homeqgo\",\"localhost\":\"homeqgo\",\"rabobank.localtest.me\":\"rabobank\"}},\"AzureAppConfiguration\":{\"Disabled\":true,\"ConnectionString\":\"test\",\"EnvironmentLabel\":\"fake\"},\"Serilog\":{\"MinimumLevel\":{\"Default\":\"Information\",\"Override\":{\"Microsoft\":\"Warning\",\"Microsoft.Hosting.Lifetime\":\"Information\"}}},\"AllowedHosts\":\"*\",\"Jwt\":{\"Issuer\":\"http://localhost:5032/\",\"Audience\":\"HomeQgo\",\"Key\":\"this_is_a_fake_key\",\"LifeTime\":120}}";
-        config = JsonSerializer.Deserialize<JsonObject>(str)!;
-    }
-
-
-    private async Task LoadFiles(InputFileChangeEventArgs e) {
+    private async Task LoadFile(InputFileChangeEventArgs e) {
         isLoading = true;
         var file = e.GetMultipleFiles().First();
 
@@ -81,10 +72,14 @@ else if (loadedFile != null) {
             var path = Path.Combine(Environment.ContentRootPath,
                 Environment.EnvironmentName, "unsafe_uploads",
                 trustedFileNameForFileStorage);
-
-            await using FileStream fs = new(path, FileMode.Create);
-            await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
-            config = JsonSerializer.Deserialize<dynamic>(fs.ReadByte())!;
+            
+            await using (FileStream fs = new(path, FileMode.Create)) {
+                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+            }
+            
+            var adapter = new JsonConfigAdaptor(path);
+            var usecase = new GetConfigurationUseCase(adapter);
+            config = usecase.Execute().Result;
         }
         catch (Exception ex) {
             Logger.LogError("File: {Filename} Error: {Error}",
