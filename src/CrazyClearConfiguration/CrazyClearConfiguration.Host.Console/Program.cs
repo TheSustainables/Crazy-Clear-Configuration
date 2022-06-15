@@ -1,38 +1,29 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Dynamic;
+using CrazyClearConfiguration.Adapter.Configuration.Memory;
+using CrazyClearConfiguration.Core.Usecases;
 
 Console.WriteLine("Hello, World!");
+var adapter = new InmemoryConfigAdapter();
+var usecase = new GetConfigurationUseCase(adapter);
+var data = usecase.Execute().Result;
 
-dynamic testObject = new ExpandoObject();
-testObject.Value = "hfghf";
-testObject.Array = new string[]
+void Test(dynamic data)
 {
-    "1",
-    "2",
-    "3",
-};
-dynamic expendo = new ExpandoObject();
-expendo.Value = "asdsad";
-expendo.Array = new string[]
-{
-    "1",
-    "2",
-    "3",
-};
-testObject.Object = expendo;
-
-foreach (var test in testObject)
-{
-    if (test.Value is string)
+    foreach (var test in data)
     {
-        Console.WriteLine(test.Value);
-    }
-    else
-    {
-        foreach (var tester in test.Value)
+        if (test is string)
         {
-            Console.WriteLine(tester.Value);
+            Console.WriteLine(test);
         }
-    }
+        else if (test.Value is string)
+        {
+            Console.WriteLine(test.Value);
+        }
+        else
+        {
+            Test(test.Value);
+        }
+    } 
 }
+Test(data);

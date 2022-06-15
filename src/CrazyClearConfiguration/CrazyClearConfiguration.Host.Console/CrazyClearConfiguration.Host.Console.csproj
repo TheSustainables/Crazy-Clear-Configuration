@@ -7,4 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Memory\CrazyClearConfiguration.Adapter.Configuration.Memory.csproj" />
+      <ProjectReference Include="..\CrazyClearConfiguration.Core\CrazyClearConfiguration.Core.csproj" />
+    </ItemGroup>
+
 </Project>
