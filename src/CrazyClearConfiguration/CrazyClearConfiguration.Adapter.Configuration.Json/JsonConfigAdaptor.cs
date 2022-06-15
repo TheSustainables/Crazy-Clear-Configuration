@@ -14,17 +14,17 @@ public class JsonConfigAdaptor : IConfigPort
         _jsonSource = jsonSource;
     }
 
-    public Task<ExpandoObject> Read()
+    public async Task<ExpandoObject> Read()
     {
-        var jsonContent = File.ReadAllText(_jsonSource);
+        var jsonContent = await File.ReadAllTextAsync(_jsonSource);
         var expandoObject = JsonConvert.DeserializeObject<ExpandoObject>(jsonContent, new ExpandoObjectConverter());
 
-        return Task.FromResult(expandoObject ?? new ExpandoObject());
+        return expandoObject ?? new ExpandoObject();
     }
 
     public async Task Write(ExpandoObject config)
     {
-        var jsonContent = JsonConvert.SerializeObject(config);
+        var jsonContent = JsonConvert.SerializeObject(config, Formatting.Indented);
 
         await File.WriteAllTextAsync(_jsonSource, jsonContent);
     }
