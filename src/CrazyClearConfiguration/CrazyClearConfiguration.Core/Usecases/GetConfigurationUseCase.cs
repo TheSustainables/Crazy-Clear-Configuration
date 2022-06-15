@@ -1,14 +1,18 @@
-﻿namespace CrazyClearConfiguration.Core.Usecases;
+﻿using System.Dynamic;
+
+namespace CrazyClearConfiguration.Core.Usecases;
 
 public class GetConfigurationUseCase
 {
-    public GetConfigurationUseCase()
+    private readonly IConfigPort _configPort;
+
+    public GetConfigurationUseCase(IConfigPort configPort)
     {
-        
+        _configPort = configPort;
     }
     
-    public dynamic Execute()
+    public async Task<dynamic> Execute()
     {
-        
+        return await _configPort.Read();
     }
 }
