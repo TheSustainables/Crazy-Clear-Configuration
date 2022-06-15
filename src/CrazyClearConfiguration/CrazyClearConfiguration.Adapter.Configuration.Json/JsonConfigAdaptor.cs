@@ -13,7 +13,7 @@ public class JsonConfigAdaptor : IConfigPort
         _jsonSource = jsonSource;
     }
 
-    public Task<ExpandoObject?> Read()
+    public Task<ExpandoObject> Read()
     {
         var jsonContent = File.ReadAllText(_jsonSource);
         var expandoObject = JsonSerializer.Deserialize<ExpandoObject>(jsonContent) ?? new ExpandoObject();
