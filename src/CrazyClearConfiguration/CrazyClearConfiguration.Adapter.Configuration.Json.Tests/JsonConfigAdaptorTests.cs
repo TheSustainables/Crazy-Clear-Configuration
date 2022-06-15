@@ -1,14 +1,18 @@
 using CrazyClearConfiguration.Core.Extensions;
+using System.IO;
 using Xunit;
 
 namespace CrazyClearConfiguration.Adapter.Configuration.Json.Tests
 {
     public class JsonConfigAdaptorTests
     {
+        private const string JsonSource = "TestSettings.json";
+        private const string UpdatedJsonSource = "UpdatedTestSettings.json";
+
         [Fact]
         public async void CanReadSimpleValuesFromJson()
         {
-            var adaptor = new JsonConfigAdaptor("TestSettings.json");
+            var adaptor = new JsonConfigAdaptor(JsonSource);
             var expandoObject = await adaptor.Read();
 
             Assert.Equal("Hello 1", expandoObject.GetValue("String").AsString());
@@ -19,7 +23,9 @@ namespace CrazyClearConfiguration.Adapter.Configuration.Json.Tests
         [Fact]
         public async void CanWriteSimpleValuesToJson()
         {
-            var adaptor = new JsonConfigAdaptor("TestSettings.json");
+            File.Copy(JsonSource, UpdatedJsonSource, overwrite: true);
+
+            var adaptor = new JsonConfigAdaptor(UpdatedJsonSource);
 
             dynamic expandoObjectBefore = await adaptor.Read();
 
