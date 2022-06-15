@@ -1,6 +1,7 @@
 ﻿using CrazyClearConfiguration.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Dynamic;
-using System.Text.Json;
 
 namespace CrazyClearConfiguration.Adapter.Configuration.Json;
 
@@ -16,14 +17,14 @@ public class JsonConfigAdaptor : IConfigPort
     public Task<ExpandoObject> Read()
     {
         var jsonContent = File.ReadAllText(_jsonSource);
-        var expandoObject = JsonSerializer.Deserialize<ExpandoObject>(jsonContent) ?? new ExpandoObject();
+        var expandoObject = JsonConvert.DeserializeObject<ExpandoObject>(jsonContent, new ExpandoObjectConverter());
 
-        return Task.FromResult(expandoObject);
+        return Task.FromResult(expandoObject ?? new ExpandoObject());
     }
 
     public async Task Write(ExpandoObject config)
     {
-        var jsonContent = JsonSerializer.Serialize(config);
+        var jsonContent = JsonConvert.SerializeObject(config);
 
         await File.WriteAllTextAsync(_jsonSource, jsonContent);
     }
