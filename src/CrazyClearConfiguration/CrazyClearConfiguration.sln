@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Hos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Core", "CrazyClearConfiguration.Core\CrazyClearConfiguration.Core.csproj", "{D9CBDCC8-D7A6-437B-9E56-7826B45B8283}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Adapter.Json", "CrazyClearConfiguration.Adapter.Json\CrazyClearConfiguration.Adapter.Json.csproj", "{870FCA33-5C06-4B28-B632-822BE8FE992F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Adapter.Configuration.Json", "CrazyClearConfiguration.Adapter.Configuration.Json\CrazyClearConfiguration.Adapter.Configuration.Json.csproj", "{870FCA33-5C06-4B28-B632-822BE8FE992F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyClearConfiguration.Adapter.Json.Tests", "CrazyClearConfiguration.Adapter.Json.Tests\CrazyClearConfiguration.Adapter.Json.Tests.csproj", "{B9ABEEC7-5EAA-406D-AB18-0245B9DDAF8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrazyClearConfiguration.Adapter.Configuration.Json.Tests", "CrazyClearConfiguration.Adapter.Configuration.Json.Tests\CrazyClearConfiguration.Adapter.Configuration.Json.Tests.csproj", "{B9ABEEC7-5EAA-406D-AB18-0245B9DDAF8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

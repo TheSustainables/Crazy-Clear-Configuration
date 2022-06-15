@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Json\CrazyClearConfiguration.Adapter.Json.csproj" />
+    <ProjectReference Include="..\CrazyClearConfiguration.Adapter.Configuration.Json\CrazyClearConfiguration.Adapter.Configuration.Json.csproj" />
   </ItemGroup>
 
 </Project>
