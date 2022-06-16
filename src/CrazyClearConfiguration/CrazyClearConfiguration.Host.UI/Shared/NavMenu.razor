@@ -4,7 +4,7 @@
 @using CrazyClearConfiguration.Core.UseCases
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">CrazyClearConfiguration</a>
+        <a class="navbar-brand" href="">Crazy Clear Configuration</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -19,22 +19,19 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="config-viewer">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Config viewer
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
             <NavLink class="nav-link" href="add-config">
-                <span class="oi oi-list-rich" aria-hidden="true"></span>Add new configuration
+                <span class="oi oi-plus" aria-hidden="true"></span>Add new configuration
             </NavLink>
         </div>
+        
         @if (configProfiles != null)
         {
+            <h6 class="mt-4 ml-3 text-white-50">DOCUMENTS</h6>
             @foreach (var config in configProfiles.ConfigSources)
             {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@("config-viewer/" + config.Name)">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span>@config.Name
+                        <span class="oi oi-caret-right" aria-hidden="true"></span>@config.Name
                     </NavLink>
                 </div>
             }

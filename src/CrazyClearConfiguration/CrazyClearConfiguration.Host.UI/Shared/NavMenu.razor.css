@@ -40,6 +40,10 @@
         line-height: 3rem;
     }
 
+    .nav-item ::deep a span {
+        color: #91E0A9;
+    }
+
 .nav-item ::deep a.active {
     background-color: rgba(255,255,255,0.25);
     color: white;
@@ -59,4 +63,8 @@
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+}
+
+.navbar-dark .navbar-brand {
+    color: #91E0A9;
 }

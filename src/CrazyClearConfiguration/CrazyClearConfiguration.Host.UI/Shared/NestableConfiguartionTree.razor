@@ -3,20 +3,20 @@
 
 @foreach (var (key, value) in Config) {
     if (value is ExpandoObject) {
-        <MudTreeViewItem Value="@key" UserAttributes="@GetAttributes(key)">
-            <NestableConfiguartionTree config="@value" ParentKey="@GetParentKey(key)" filter="@Filter"/>
+        <MudTreeViewItem Value="@key" UserAttributes="@GetAttributes(key)" IconColor="Color.Success">
+            <NestableConfiguartionTree config="@value" ParentKey="@GetParentKey(key)" />
         </MudTreeViewItem>
     }
     else if (value is IList) {
-        <MudTreeViewItem Value="@key" UserAttributes="@GetAttributes(key)">
+        <MudTreeViewItem Value="@key" UserAttributes="@GetAttributes(key)" IconColor="Color.Success">
             @foreach (var listItem in (IEnumerable) value!) {
                 <MudTreeViewItem Value="listItem"/>
             }
         </MudTreeViewItem>
     }
-    else if(!string.IsNullOrWhiteSpace(Filter) && GetParentKey(key).Contains(Filter)) {
-        <MudTreeViewItem Value="@key">
-            <MudTreeViewItem Value="@GetValue(value.ToString())"/>
+    else {
+        <MudTreeViewItem Value="@key" IconColor="Color.Success">
+            <MudTreeViewItem Value="value" IconColor="Color.Success"/>
         </MudTreeViewItem>
     }
 }
@@ -29,9 +29,6 @@
     [Parameter]
     public string ParentKey { get; set; }
 
-    [Parameter]
-    public string Filter { get; set; }
-
     private Dictionary<string, object> GetAttributes(string key) {
         return new Dictionary<string, object>() {
             {"data-key", GetParentKey(key)}
@@ -40,9 +37,5 @@
     
     private string GetParentKey(string key) {
         return $"{ParentKey ?? ""}{key}";
-    }
-
-    private string GetValue(string value) {
-        return $"{value} {Filter}";
     }
 }

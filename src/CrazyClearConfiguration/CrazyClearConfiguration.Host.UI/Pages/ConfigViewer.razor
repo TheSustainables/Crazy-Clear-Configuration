@@ -10,19 +10,21 @@
 @inject ILogger<ConfigViewer> Logger
 @inject IWebHostEnvironment Environment
 
+<div class="top-row d-flex d-flex justify-content-between align-items-center">
+    <div>
+        @configProfileName
+    </div>
+    <div>
+        <input type="text" class="form-control" id="filter" placeholder="Search..." @bind="filter">
+    </div>
+</div>
+
 @if (config != null) {
     <div class="mb-3">
-        <label for="filter" class="form-label">Filter</label>
-        <input type="text" class="form-control" id="filter" placeholder="Filter" @bind="filter">
-    </div>
-
-    <div class="mb-3">
-        <h3>Configuration tree:</h3>
-
         <p>
             <MudPaper Elevation="0">
                 <MudTreeView T="string">
-                    <NestableConfiguartionTree config="@config" filter="@filter"/>
+                    <NestableConfiguartionTree config="@config" />
                 </MudTreeView>
             </MudPaper>
         </p>
@@ -38,25 +40,26 @@
 }
 
 @code {
+
     [Parameter]
-    public string configProfileName{ get; set; }
+    public string configProfileName { get; set; }
+
     private ConfigProfile configProfile;
     private ExpandoObject? config;
     private string configType;
     private string error;
     private string filter = "";
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() {
         var adapter = new JsonProfileAdaptor();
         var usecase = new GetProfileUseCase(adapter);
         configProfile = await usecase.Execute("connectionData");
         var chosenProfile = configProfile.ConfigSources.SingleOrDefault(source => source.Name == configProfileName) as JsonConfigSource;
-        if (chosenProfile != null)
-        {
+        if (chosenProfile != null) {
             var configAdapter = new JsonConfigAdaptor(chosenProfile.FilePath);
             var configUsecase = new GetConfigurationUseCase(configAdapter);
             config = await configUsecase.Execute();
         }
     }
+
 }

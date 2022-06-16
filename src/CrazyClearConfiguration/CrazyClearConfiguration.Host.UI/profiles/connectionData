@@ -5,6 +5,11 @@
       "$type": "CrazyClearConfiguration.Core.Ports.JsonConfigSource, CrazyClearConfiguration.Core",
       "Name": "Demo",
       "FilePath": "C:\\Users\\FabrizioMeinero\\Github\\Crazy-Clear-Configuration\\src\\CrazyClearConfiguration\\CrazyClearConfiguration.Host.UI\\Development\\unsafe_uploads\\5inv2stu.cql"
+    },
+    {
+      "$type": "CrazyClearConfiguration.Core.Ports.JsonConfigSource, CrazyClearConfiguration.Core",
+      "Name": "Test settings",
+      "FilePath": "C:\\Users\\FabrizioMeinero\\Github\\Crazy-Clear-Configuration\\src\\CrazyClearConfiguration\\CrazyClearConfiguration.Host.UI\\Development\\unsafe_uploads\\dowgmvln.pvm"
     }
   ]
 }

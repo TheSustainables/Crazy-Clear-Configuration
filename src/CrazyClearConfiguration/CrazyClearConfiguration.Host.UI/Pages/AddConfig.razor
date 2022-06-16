@@ -15,7 +15,7 @@
 <div class="d-flex">
     <p>
         <label>
-            <InputFile OnChange="@LoadFile" />
+            <InputFile OnChange="@LoadFile" class="form-control" />
         </label>
     </p>
     
@@ -32,16 +32,16 @@
     }
 </div>
 <div class="d-flex">
-    <EditForm Model="@connectionData" OnValidSubmit="@HandleValidSubmit">
+    <EditForm Model="@connectionData" OnValidSubmit="@HandleValidSubmit" class="mt-4">
         <div>Connection Name:</div>
-        <InputText id="name" @bind-Value="connectionData.Name" class="border border-secondary input-group border-opacity-50 rounded-4"/>
+        <InputText id="name" @bind-Value="connectionData.Name" class="form-control"/>
         @if (loadedFile is null)
         {
-            <div>File Path:</div>
-            <InputText id="connection" class="border border-secondary input-group border-opacity-50 rounded-4" @bind-Value="connectionData.Connection" MudHidden="@(!string.IsNullOrWhiteSpace(pathToFile))"/>
+            <div class="mt-3">File Path:</div>
+            <InputText id="connection" class="form-control" @bind-Value="connectionData.Connection" MudHidden="@(!string.IsNullOrWhiteSpace(pathToFile))"/>
         }
 
-        <button  class="border border-secondary input-group rounded-4" disabled=@(string.IsNullOrWhiteSpace(connectionData.Connection) || loadedFile != null) type="submit" >Submit</button>
+        <button  class="btn btn-light input-group rounded-4 mt-3" type="submit" >Submit</button>
     </EditForm>
 </div>
 
