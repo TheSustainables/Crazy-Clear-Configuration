@@ -1,0 +1,91 @@
+﻿@page "/add-config"
+@using CrazyClearConfiguration.Host.UI.Data
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Logging
+@using CrazyClearConfiguration.Core.UseCases
+@using CrazyClearConfiguration.Adapter.Profile.Json
+@using CrazyClearConfiguration.Core.Ports
+@inject ILogger<ConfigViewer> Logger
+@inject IWebHostEnvironment Environment
+
+<div class="d-flex">
+    <h3>Load configuration:</h3>
+</div>
+
+<div class="d-flex">
+    <p>
+        <label>
+            <InputFile OnChange="@LoadFile" />
+        </label>
+    </p>
+    
+    @if (isLoading) {
+        <p>Uploading...</p>
+    }
+    else if (loadedFile != null) {
+        <div>
+            <div>Name: @loadedFile.Name</div>
+            <div>Last modified: @loadedFile.LastModified.ToString()</div>
+            <div>Size (bytes): @loadedFile.Size</div>
+            <div>Content type: @loadedFile.ContentType</div>
+        </div>
+    }
+</div>
+<div class="d-flex">
+    <EditForm Model="@connectionData" OnValidSubmit="@HandleValidSubmit">
+        <div>Connection Name:</div>
+        <InputText id="name" @bind-Value="connectionData.Name" class="border border-secondary input-group border-opacity-50 rounded-4"/>
+        @if (loadedFile is null)
+        {
+            <div>File Path:</div>
+            <InputText id="connection" class="border border-secondary input-group border-opacity-50 rounded-4" @bind-Value="connectionData.Connection" MudHidden="@(!string.IsNullOrWhiteSpace(pathToFile))"/>
+        }
+
+        <button  class="border border-secondary input-group rounded-4" disabled=@(string.IsNullOrWhiteSpace(connectionData.Connection) || loadedFile != null) type="submit" >Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    private ConnectionData connectionData = new();
+    private IBrowserFile loadedFile;
+    private long maxFileSize = 1024 * 1000;
+    private int maxAllowedFiles = 1;
+    private bool isLoading;
+    private string pathToFile;
+    private ConfigProfile configProfile;
+    
+    private async Task HandleValidSubmit()
+    {
+        var profile = new JsonProfileAdaptor();
+        var saveUseCase = new SaveProfileUseCase(profile);
+        var getUseCase = new GetProfileUseCase(profile);
+
+        var profiles = await getUseCase.Execute("connectionData");
+        profiles.ConfigSources.Add(new JsonConfigSource(connectionData.Name, connectionData.Connection ?? pathToFile));
+        await saveUseCase.Execute(profiles);
+        Logger.LogInformation("HandleValidSubmit called");
+    }
+    
+    private async Task LoadFile(InputFileChangeEventArgs eventArgs) {
+        isLoading = true;
+        var file = eventArgs.GetMultipleFiles().Single();
+        try {
+            loadedFile = file;
+            var trustedFileNameForFileStorage = Path.GetRandomFileName();
+            var path = Path.Combine(Environment.ContentRootPath,
+                Environment.EnvironmentName, "unsafe_uploads",
+                trustedFileNameForFileStorage);
+
+            await using FileStream fs = new(path, FileMode.Create);
+            await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+            pathToFile = path;
+        }
+        catch (Exception ex) {
+            Logger.LogError("File: {Filename} Error: {Error}",
+                file.Name, ex.Message);
+        }
+
+        isLoading = false;
+    }
+}

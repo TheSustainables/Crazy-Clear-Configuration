@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using CrazyClearConfiguration.Host.UI.Data
+@using CrazyClearConfiguration.Adapter.Profile.Json
+@using CrazyClearConfiguration.Core.Ports
+@using CrazyClearConfiguration.Core.UseCases
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">CrazyClearConfiguration</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -19,16 +23,40 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Config viewer
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="add-config">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Add new configuration
+            </NavLink>
+        </div>
+        @if (configProfiles != null)
+        {
+            @foreach (var config in configProfiles.ConfigSources)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="@("config-viewer/" + config.Name)">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span>@config.Name
+                    </NavLink>
+                </div>
+            }
+            
+        }
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private ConfigProfile configProfiles;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var adapter = new JsonProfileAdaptor();
+        var usecase = new GetProfileUseCase(adapter);
+        configProfiles = await usecase.Execute("connectionData");
+    }
+    
     private void ToggleNavMenu() {
         collapseNavMenu = !collapseNavMenu;
     }
-
 }

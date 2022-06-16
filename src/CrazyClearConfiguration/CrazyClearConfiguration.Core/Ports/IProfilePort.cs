@@ -8,14 +8,14 @@
 
     public class ConfigProfile
     {
-        public ConfigProfile(string name, IEnumerable<IConfigSource> configSources)
+        public ConfigProfile(string name, IList<IConfigSource> configSources)
         {
             Name = name;
             ConfigSources = configSources;
         }
 
         public string Name { get; }
-        public IEnumerable<IConfigSource> ConfigSources { get; }
+        public IList<IConfigSource> ConfigSources { get; }
         public static ConfigProfile Empty => new EmptyConfigProfile();
     }
 
