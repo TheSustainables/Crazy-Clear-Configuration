@@ -1,29 +1,14 @@
-﻿@page "/config-viewer"
+﻿@page "/config-viewer/{configProfileName}"
 @using System.Dynamic
 @using System.IO
 @using CrazyClearConfiguration.Adapter.Configuration.Json
+@using CrazyClearConfiguration.Adapter.Profile.Json
+@using CrazyClearConfiguration.Core.Ports
 @using CrazyClearConfiguration.Core.UseCases
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<ConfigViewer> Logger
 @inject IWebHostEnvironment Environment
-
-<div>
-    <h3>Load configuration:</h3>
-    <InputFile OnChange="@LoadFile"/>
-</div>
-
-@if (isLoading) {
-    <p class="mb-3">Uploading...</p>
-}
-else if (loadedFile != null) {
-    <div class="mb-3">
-        <div>Name: @loadedFile.Name</div>
-        <div>Last modified: @loadedFile.LastModified.ToString()</div>
-        <div>Size (bytes): @loadedFile.Size</div>
-        <div>Content type: @loadedFile.ContentType</div>
-    </div>
-}
 
 @if (config != null) {
     <div class="mb-3">
@@ -53,42 +38,25 @@ else if (loadedFile != null) {
 }
 
 @code {
-    private IBrowserFile loadedFile;
-    private long maxFileSize = 1024 * 1000;
-    private ExpandoObject config;
-    private bool isLoading;
+    [Parameter]
+    public string configProfileName{ get; set; }
+    private ConfigProfile configProfile;
+    private ExpandoObject? config;
+    private string configType;
     private string error;
     private string filter = "";
 
-    private async Task LoadFile(InputFileChangeEventArgs e) {
-        isLoading = true;
-        var file = e.GetMultipleFiles().First();
-        config = null;
-        error = null;
-
-        try {
-            loadedFile = file;
-            var trustedFileNameForFileStorage = Path.GetRandomFileName();
-            var path = Path.Combine(Environment.ContentRootPath,
-                Environment.EnvironmentName, "unsafe_uploads",
-                trustedFileNameForFileStorage);
-
-            await using (FileStream fs = new(path, FileMode.Create)) {
-                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
-            }
-
-            var adapter = new JsonConfigAdaptor(path);
-            var usecase = new GetConfigurationUseCase(adapter);
-            config = await usecase.Execute();
-        }
-        catch (Exception ex) {
-            Logger.LogError("File: {Filename} Error: {Error}",
-                file.Name, ex.Message);
-            error = ex.Message;
-        }
-        finally {
-            isLoading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        var adapter = new JsonProfileAdaptor();
+        var usecase = new GetProfileUseCase(adapter);
+        configProfile = await usecase.Execute("connectionData");
+        var chosenProfile = configProfile.ConfigSources.SingleOrDefault(source => source.Name == configProfileName) as JsonConfigSource;
+        if (chosenProfile != null)
+        {
+            var configAdapter = new JsonConfigAdaptor(chosenProfile.FilePath);
+            var configUsecase = new GetConfigurationUseCase(configAdapter);
+            config = await configUsecase.Execute();
         }
     }
-
 }

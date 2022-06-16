@@ -8,14 +8,14 @@
 
     public class ConfigProfile
     {
-        public ConfigProfile(string name, IEnumerable<IConfigSource> configSources)
+        public ConfigProfile(string name, IList<IConfigSource> configSources)
         {
             Name = name;
             ConfigSources = configSources;
         }
 
         public string Name { get; }
-        public IEnumerable<IConfigSource> ConfigSources { get; }
+        public IList<IConfigSource> ConfigSources { get; }
         public static ConfigProfile Empty => new EmptyConfigProfile();
     }
 
@@ -31,13 +31,29 @@
 
     public class JsonConfigSource : IConfigSource
     {
-        public string Name { get; }
-        public string FilePath { get; }
-
         public JsonConfigSource(string name, string filePath)
         {
             FilePath = filePath;
             Name = name;
         }
+
+        public string Name { get; }
+        public string FilePath { get; }
+    }
+
+    public class AzureAppServiceSource : IConfigSource
+    {
+        public AzureAppServiceSource(string name, string subscription, string resourceGroup, string appServiceName)
+        {
+            Name = name;
+            Subscription = subscription;
+            ResourceGroup = resourceGroup;
+            AppServiceName = appServiceName;
+        }
+
+        public string Name { get; }
+        public string Subscription { get; }
+        public string ResourceGroup { get; }
+        public string AppServiceName { get; }
     }
 }

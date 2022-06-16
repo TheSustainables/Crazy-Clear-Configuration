@@ -6,6 +6,7 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
     public class JsonProfileAdaptor : IProfilePort
     {
         private const string ProfilesBasePath = "./profiles";
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
 
         public JsonProfileAdaptor()
         {
@@ -13,6 +14,12 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
             {
                 Directory.CreateDirectory(ProfilesBasePath);
             }
+
+            _jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Auto
+            };
         }
 
         private string GetFileName(string name)
@@ -38,7 +45,7 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
             }
 
             var fileContent = await File.ReadAllTextAsync(filePath);
-            var profile = JsonConvert.DeserializeObject<ConfigProfile>(fileContent);
+            var profile = JsonConvert.DeserializeObject<ConfigProfile>(fileContent, _jsonSerializerSettings);
 
             return profile ?? ConfigProfile.Empty;
         }
@@ -47,7 +54,7 @@ namespace CrazyClearConfiguration.Adapter.Profile.Json
         {
             var fileName = GetFileName(profile.Name);
             var filePath = Path.Combine(ProfilesBasePath, fileName);
-            var fileContent = JsonConvert.SerializeObject(profile, Formatting.Indented);
+            var fileContent = JsonConvert.SerializeObject(profile, _jsonSerializerSettings);
 
             await File.WriteAllTextAsync(filePath, fileContent);
         }
