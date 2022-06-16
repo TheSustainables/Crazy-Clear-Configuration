@@ -8,18 +8,16 @@
 @inject ILogger<ConfigViewer> Logger
 @inject IWebHostEnvironment Environment
 
-<p>
-    <label>
-        <h3>Load configuration:</h3>
-        <InputFile OnChange="@LoadFile" />
-    </label>
-</p>
+<div>
+    <h3>Load configuration:</h3>
+    <InputFile OnChange="@LoadFile"/>
+</div>
 
 @if (isLoading) {
-    <p>Uploading...</p>
+    <p class="mb-3">Uploading...</p>
 }
 else if (loadedFile != null) {
-    <div>
+    <div class="mb-3">
         <div>Name: @loadedFile.Name</div>
         <div>Last modified: @loadedFile.LastModified.ToString()</div>
         <div>Size (bytes): @loadedFile.Size</div>
@@ -28,26 +26,45 @@ else if (loadedFile != null) {
 }
 
 @if (config != null) {
-    <TrySomething />
-    <MudPaper Elevation="0">
-        <MudTreeView T="string" CanHover="true">
-            <NestableConfiguartionTree config="@config" />
-        </MudTreeView>
-    </MudPaper>
+    <div class="mb-3">
+        <label for="filter" class="form-label">Filter</label>
+        <input type="text" class="form-control" id="filter" placeholder="Filter" @bind="filter">
+    </div>
+
+    <div class="mb-3">
+        <h3>Configuration tree:</h3>
+
+        <p>
+            <MudPaper Elevation="0">
+                <MudTreeView T="string">
+                    <NestableConfiguartionTree config="@config" filter="@filter"/>
+                </MudTreeView>
+            </MudPaper>
+        </p>
+    </div>
+}
+
+@if (error != null) {
+    <div class="mb-3">
+        <h3>Something went wrong:</h3>
+
+        <p>@error</p>
+    </div>
 }
 
 @code {
     private IBrowserFile loadedFile;
     private long maxFileSize = 1024 * 1000;
-    private int maxAllowedFiles = 1;
     private ExpandoObject config;
     private bool isLoading;
-    private string configType;
+    private string error;
+    private string filter = "";
 
     private async Task LoadFile(InputFileChangeEventArgs e) {
         isLoading = true;
         var file = e.GetMultipleFiles().First();
         config = null;
+        error = null;
 
         try {
             loadedFile = file;
@@ -62,13 +79,16 @@ else if (loadedFile != null) {
 
             var adapter = new JsonConfigAdaptor(path);
             var usecase = new GetConfigurationUseCase(adapter);
-            config = usecase.Execute().Result;
+            config = await usecase.Execute();
         }
         catch (Exception ex) {
             Logger.LogError("File: {Filename} Error: {Error}",
                 file.Name, ex.Message);
+            error = ex.Message;
         }
-
-        isLoading = false;
+        finally {
+            isLoading = false;
+        }
     }
+
 }
