@@ -61,6 +61,9 @@
         var getUseCase = new GetProfileUseCase(profile);
 
         var profiles = await getUseCase.Execute("connectionData");
+        if (profiles is EmptyConfigProfile) {
+            profiles = new ConfigProfile("connectionData", new List<IConfigSource>());
+        }
         profiles.ConfigSources.Add(new JsonConfigSource(connectionData.Name, connectionData.Connection ?? pathToFile));
         await saveUseCase.Execute(profiles);
         Logger.LogInformation("HandleValidSubmit called");
