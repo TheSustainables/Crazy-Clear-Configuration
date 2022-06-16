@@ -31,13 +31,29 @@
 
     public class JsonConfigSource : IConfigSource
     {
-        public string Name { get; }
-        public string FilePath { get; }
-
         public JsonConfigSource(string name, string filePath)
         {
             FilePath = filePath;
             Name = name;
         }
+
+        public string Name { get; }
+        public string FilePath { get; }
+    }
+
+    public class AzureAppServiceSource : IConfigSource
+    {
+        public AzureAppServiceSource(string name, string subscription, string resourceGroup, string appServiceName)
+        {
+            Name = name;
+            Subscription = subscription;
+            ResourceGroup = resourceGroup;
+            AppServiceName = appServiceName;
+        }
+
+        public string Name { get; }
+        public string Subscription { get; }
+        public string ResourceGroup { get; }
+        public string AppServiceName { get; }
     }
 }
