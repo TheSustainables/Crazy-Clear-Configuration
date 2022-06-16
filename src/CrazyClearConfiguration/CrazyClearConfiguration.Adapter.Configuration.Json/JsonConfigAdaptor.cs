@@ -8,10 +8,15 @@ namespace CrazyClearConfiguration.Adapter.Configuration.Json;
 public class JsonConfigAdaptor : IConfigPort
 {
     private readonly string _jsonSource;
+    private readonly JsonSerializerSettings _jsonSerializerSettings;
 
     public JsonConfigAdaptor(string jsonSource)
     {
         _jsonSource = jsonSource;
+        _jsonSerializerSettings = new JsonSerializerSettings()
+        {
+            Formatting = Formatting.Indented
+        };
     }
 
     public async Task<ExpandoObject> Read()
@@ -24,7 +29,7 @@ public class JsonConfigAdaptor : IConfigPort
 
     public async Task Write(ExpandoObject config)
     {
-        var jsonContent = JsonConvert.SerializeObject(config, Formatting.Indented);
+        var jsonContent = JsonConvert.SerializeObject(config, _jsonSerializerSettings);
 
         await File.WriteAllTextAsync(_jsonSource, jsonContent);
     }
